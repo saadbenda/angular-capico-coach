@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
+import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 
 /**
  * @title Stepper overview
@@ -18,6 +19,21 @@ interface CourseItemNode {
   children?: CourseItemNode[];
   name: string;
 }
+
+ const todo = [
+    'Get to work',
+    'Pick up groceries',
+    'Go home',
+    'Fall asleep'
+  ];
+
+  const done = [
+    'Get up',
+    'Brush teeth',
+    'Take a shower',
+    'Check e-mail',
+    'Walk dog'
+  ];
 
 const TREE_DATA: CourseItemNode[] = [
   {
@@ -78,7 +94,35 @@ export class StepperOverviewExample implements OnInit {
       this._transformer, node => node.level, node => node.expandable, node => node.children);
 
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
+// -------------------------
+
+  dataSourceAssigned =  new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+
+   
+
+
+
+
   hasChild = (_: number, node: CourseItemFlatNode) => node.expandable;
+
+  drop(event: CdkDragDrop<string[]>){
+    console.log('dropped');
+    // console.log(JSON.stringify(event));
+    // console.log(event)
+     console.log('origin/destination', event.previousIndex, event.currentIndex);
+     console.log(event.item.data)
+     const data = event.item.data;
+     this.getChildren(data);
+
+     
+     // this.dataSource.
+    
+
+  }
+  getChildren(data){
+
+  }
 
   ngOnInit() {
     this.firstFormGroup = this._formBuilder.group({
