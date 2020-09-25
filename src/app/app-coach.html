@@ -29,17 +29,17 @@
 <form class="selection">
   <mat-form-field appearance="fill" class="classes">
     <mat-label>Classes</mat-label>
-    <mat-select [(ngModel)]="selectedValue" name="food">
-      <mat-option *ngFor="let food of foods" [value]="food.value">
-        {{food.viewValue}}
+    <mat-select [(ngModel)]="selectedValue" name="classe">
+      <mat-option *ngFor="let classe of classes" [value]="classe.value">
+        {{classe.viewValue}}
       </mat-option>
     </mat-select>
   </mat-form-field>
   <mat-form-field appearance="fill" class="students">
     <mat-label>Elèves</mat-label>
-    <mat-select [(ngModel)]="selectedValue" name="food">
-      <mat-option *ngFor="let food of foods" [value]="food.value">
-        {{food.viewValue}}
+    <mat-select [(ngModel)]="selectedValue" name="student">
+      <mat-option *ngFor="let student of students" [value]="student.value">
+        {{student.viewValue}}
       </mat-option>
     </mat-select>
   </mat-form-field>

@@ -65,11 +65,11 @@ const TREE_DATA: CourseItemNode[] = [
 
 
 @Component({
-  selector: 'stepper-overview-example',
-  templateUrl: 'stepper-overview-example.html',
-  styleUrls: ['stepper-overview-example.css'],
+  selector: 'app-coach',
+  templateUrl: 'app-coach.html',
+  styleUrls: ['app-coach.css'],
 })
-export class StepperOverviewExample implements OnInit {
+export class AppCoach implements OnInit {
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
@@ -120,8 +120,8 @@ export class StepperOverviewExample implements OnInit {
     
 
   }
-  getChildren(data){
-
+  getChildren(data: any){
+    
   }
 
   ngOnInit() {

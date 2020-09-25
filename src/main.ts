@@ -13,7 +13,8 @@ import {MAT_FORM_FIELD_DEFAULT_OPTIONS} from '@angular/material/form-field';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {FlatTreeControl} from '@angular/cdk/tree';
   import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
-  import {StepperOverviewExample} from './app/stepper-overview-example';
+  import {AppCoach} from './app/app-coach';
+  
 
 // Default MatFormField appearance to 'fill' as that is the new recommended approach and the
 // `legacy` and `standard` appearances are scheduled for deprecation in version 10.
@@ -27,16 +28,10 @@ import {FlatTreeControl} from '@angular/cdk/tree';
     DemoMaterialModule,
     MatNativeDateModule,
     ReactiveFormsModule,
-    
-
-
-
-
-
   ],
-  entryComponents: [StepperOverviewExample],
-  declarations: [StepperOverviewExample],
-  bootstrap: [StepperOverviewExample],
+  entryComponents: [AppCoach],
+  declarations: [AppCoach],
+  bootstrap: [AppCoach],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },
   ]
