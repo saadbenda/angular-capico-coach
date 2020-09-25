@@ -29,15 +29,16 @@
 <form class="selection">
   <mat-form-field appearance="fill" class="classes">
     <mat-label>Classes</mat-label>
-    <mat-select [(ngModel)]="selectedValue" name="classe">
+    <mat-select [(ngModel)]="selectedClasse" name="classe" [formControl]='classeControl'>
       <mat-option *ngFor="let classe of classes" [value]="classe.value">
         {{classe.viewValue}}
       </mat-option>
     </mat-select>
+    <mat-error *ngIf="classeControl.hasError('required')">Veuillez choisir une classe</mat-error>
   </mat-form-field>
   <mat-form-field appearance="fill" class="students">
     <mat-label>Elèves</mat-label>
-    <mat-select [(ngModel)]="selectedValue" name="student">
+    <mat-select [(ngModel)]="selectedStudent" name="student">
       <mat-option *ngFor="let student of students" [value]="student.value">
         {{student.viewValue}}
       </mat-option>

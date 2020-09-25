@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
@@ -20,20 +20,17 @@ interface CourseItemNode {
   name: string;
 }
 
- const todo = [
-    'Get to work',
-    'Pick up groceries',
-    'Go home',
-    'Fall asleep'
-  ];
+interface Student {
+  value: string;
+  viewValue: string;
+}
 
-  const done = [
-    'Get up',
-    'Brush teeth',
-    'Take a shower',
-    'Check e-mail',
-    'Walk dog'
-  ];
+interface Classe {
+  value: string;
+  viewValue: string;
+}
+
+ 
 
 const TREE_DATA: CourseItemNode[] = [
   {
@@ -73,6 +70,32 @@ export class AppCoach implements OnInit {
   isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
+  selectedStudent: string;
+  selectedClasse: string;
+  classeControl = new FormControl('', Validators.required);
+  classes: Classe[] = [
+    {value: 'Sixième', viewValue: 'Sixième'},
+    {value: 'Cinquième', viewValue: 'Cinquième'},
+    {value: 'Quatrième', viewValue: 'Quatrième'},
+    {value: 'CM2', viewValue: 'CM2'},
+    {value: 'CM1', viewValue: 'CM1'},
+    {value: 'CE2', viewValue: 'CE2'},
+     {value: 'CE1', viewValue: 'CE1'},
+     {value: 'CP', viewValue: 'CP'},
+
+  ];
+  
+
+  students: Student[] = [
+    {value: 'Julian', viewValue: 'Julian'},
+    {value: 'Mateo', viewValue: 'Mateo'},
+    {value: 'Anthony', viewValue: 'Anthony'},
+    {value: 'Ryan', viewValue: 'Ryan'},
+    {value: 'Thomas', viewValue: 'Thomas'},
+    {value: 'Joshua', viewValue: 'Joshua'},
+    {value: 'Christopher', viewValue: 'Christopher'}
+  ];
+
    // treeControl: FlatTreeControl<CourseItemFlatNode>;
   // treeFlattener: MatTreeFlattener<CourseItemNode, CourseItemFlatNode>;
 // dataSource: MatTreeFlatDataSource<CourseItemNode, CourseItemFlatNode>;
