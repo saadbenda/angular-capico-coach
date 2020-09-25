@@ -5,3 +5,51 @@
 .mat-form-field {
   margin-top: 16px;
 }
+
+.toolbar{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.cards{
+  display: flex;
+  flex-direction: row;
+
+}
+.menu-button{
+font-size: medium;
+width: 10em;
+height: 95%;
+}
+.example-container{
+  height:500px;
+  width: 100%;
+
+}
+.classes-students{
+  width:50%;
+  margin:10px;
+  padding:0;
+}
+.courses{
+  width:50%;
+  margin: 10px;
+}
+.selection{
+  display:flex;
+  flex-direction: row;
+  width:100%;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.classes{
+  width:150px;
+  // margin:10px;
+}
+.students{
+  
+  width:150px;
+
+  
+  }
+
