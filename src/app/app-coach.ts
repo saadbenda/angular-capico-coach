@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup, Validators, FormControl} from '@angular/forms';
 import {FlatTreeControl} from '@angular/cdk/tree';
 import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
+import {BehaviorSubject} from ''
 
 /**
  * @title Stepper overview
@@ -73,6 +74,7 @@ export class AppCoach implements OnInit {
   selectedStudent: string;
   selectedClasse: string;
   classeControl = new FormControl('', Validators.required);
+  studentControl = new FormControl('', Validators.required);
   classes: Classe[] = [
     {value: 'Sixième', viewValue: 'Sixième'},
     {value: 'Cinquième', viewValue: 'Cinquième'},
@@ -120,12 +122,21 @@ export class AppCoach implements OnInit {
 
 // -------------------------
 
-  dataSourceAssigned =  new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
+ treeControlAssigned = new FlatTreeControl<CourseItemFlatNode>(
+      node => node.level, node => node.expandable);
 
-   
+  dataSourceAssigned =  new MatTreeFlatDataSource(this.treeControlAssigned, this.treeFlattener);
 
+  dataChange = new BehaviorSubject<CourseItemNode[]>([]);
+  get data(): CourseItemNode[] { console.log('this.dataChange.value ',JSON.stringify(this.dataChange.value)); return this.dataChange.value; }
+  this.dataChange.susbscribe(data=>{this.dataSourceAssigned.data = data;});
 
-
+  insertItem(parent: CourseItemNode, node: CourseItemNode){
+    if(parent.children){
+      parent.children.push(node);
+      this.dataChange.next(this.data);
+    }
+  }
 
   hasChild = (_: number, node: CourseItemFlatNode) => node.expandable;
 
@@ -136,7 +147,7 @@ export class AppCoach implements OnInit {
      console.log('origin/destination', event.previousIndex, event.currentIndex);
      console.log(event.item.data)
      const data = event.item.data;
-     this.getChildren(data);
+     insertItem(event.item, )
 
      
      // this.dataSource.
