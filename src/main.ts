@@ -14,7 +14,9 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {FlatTreeControl} from '@angular/cdk/tree';
   import {MatTreeFlatDataSource, MatTreeFlattener} from '@angular/material/tree';
   import {AppCoach} from './app/app-coach';
-  
+import {AssignComponent} from './app/modal/assign/assign';
+import {GroupComponent} from './app/modal/group/group';
+
 
 // Default MatFormField appearance to 'fill' as that is the new recommended approach and the
 // `legacy` and `standard` appearances are scheduled for deprecation in version 10.
@@ -29,8 +31,8 @@ import {FlatTreeControl} from '@angular/cdk/tree';
     MatNativeDateModule,
     ReactiveFormsModule,
   ],
-  entryComponents: [AppCoach],
-  declarations: [AppCoach],
+  entryComponents: [AppCoach, AssignComponent, GroupComponent],
+  declarations: [AppCoach, AssignComponent, GroupComponent],
   bootstrap: [AppCoach],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },

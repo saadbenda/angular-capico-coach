@@ -6,53 +6,227 @@
   margin-top: 16px;
 }
 
-.toolbar{
+.toolbar {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 }
-.cards{
+
+.cards {
   display: flex;
   flex-direction: row;
-  /*justify-content: space-between;*/
-  flex-wrap: wrap;
-  width:100%;
-
-}
-.menu-button{
-font-size: medium;
-width: 10em;
-height: 95%;
-}
-.example-container{
-  height:500px;
+  justify-content: space-evenly;
+  /* flex-wrap: wrap; */
   width: 100%;
+  height: 400px;
+
 
 }
-.classes-students{
-  width:45%;
-  margin-top:10px;
-  padding:0;
+
+.menu-button {
+  font-size: medium;
+  width: 10em;
+  height: 95%;
 }
-.courses{
-  width:45%;
+
+.example-container {
+  height: 500px;
+  width: 100%;
+}
+
+.classes-students {
+  width: 45%;
   margin-top: 10px;
+  padding: 0;
+  overflow: auto;
 }
-.selection{
-  display:flex;
+
+.courses {
+  width: 45%;
+  margin-top: 10px;
+  overflow: auto;
+}
+
+.selection {
+  display: flex;
   flex-direction: row;
-  width:100%;
+  width: 100%;
   justify-content: space-around;
   flex-wrap: wrap;
 }
-.classes{
-  width:150px;
- 
-}
-.students{
-  
-  width:150px;
 
-  
+.classes {
+  width: 40%;
+}
+
+.students {
+  width: 40%;
+}
+
+@media screen and (max-width: 860px) {
+  .title {
+    font-size: 24px;
   }
+}
+
+.share-assign {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+}
+
+.search-form {
+
+  width: 100%;
+}
+
+.search-full-width {
+  width: 100%;
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+}
+
+.drawer-title {
+  vertical-align: baseline;
+}
+
+
+.sidenav-title {
+  display: flex;
+  border-bottom: 2px solid $ coach-primary-color;
+  justify-content: center;
+
+  .title {
+    color: black;
+    padding: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+  }
+
+  .toggle-icon-left {
+    position: relative;
+    left: 14%;
+  }
+
+}
+.custom-expension-panel {
+
+  box-shadow: none;
+  width: 100%;
+}
+
+.custom-panel-organization-title {
+  color: black;
+  display: flex;
+  align-items: center;
+}
+
+.custom-panel-group-title {
+  color: black;
+  text-align: start;
+  text-decoration: none;
+}
+
+.custom-panel-group-title:hover {
+
+}
+.custom-panel-group-title-2 {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  margin-top: 150px;
+
+
+}
+
+.custom-panel-organization-2{
+  margin-top: 10px;
+}
+
+
+
+.custom-panel-icon {
+  color: black;
+  margin-right: 10px;
+}
+
+.custom-panel-add {
+  display: flex;
+  justify-content: center;
+  color: black;
+  align-items: center;
+}
+
+.drawer-sidenav-action {
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  margin: 0 10px 0 10px;
+}
+
+.custom-mat-icon-button {
+  color: black;
+  width: 100%;
+  background-color: unset;
+  text-align: start;
+}
+
+.custom-mat-label {
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .custom-mat-expansion-indicator > .mat-expansion-indicator:after {
+  color: white;
+}
+
+.custom-form-field {
+  margin-top: 5px;
+  display: flex;
+  justify-content: center;
+  color: black;
+
+  mat-form-field, mat-label {
+    width: 95%;
+    color: black;
+  }
+
+  mat-icon:hover {
+    cursor: pointer;
+  }
+
+  .toggle-icon-left-chevron {
+    margin-bottom: 6px;
+  }
+}
+.toggle-icon-right {
+  position: fixed;
+  top: 0px;
+  color: black;
+
+}
+
+
+.dashboard-title {
+
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  height: 86%;
+  font-size: 280%;
+  font-weight: bold;
+}
+
+h4 {
+  text-align: center;
+}
+
+
 

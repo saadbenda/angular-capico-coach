@@ -1,96 +1,180 @@
 <mat-toolbar class="toolbar" color="primary">
-    
-      <button mat-button class="menu-button"><i class="material-icons md-dark">group</i> Admin</button>
-       <button mat-button class="menu-button"><i class="material-icons md-dark">work</i> Studio</button>
-       <button mat-button class="menu-button"><i class="material-icons md-dark">school</i> Coach</button>
-       <button mat-button class="menu-button"><i class="material-icons md-dark">border_color</i> Reader</button>
-       <button mat-button class="menu-button"><i class="material-icons md-dark">mood</i> Kids</button>
-  
-  </mat-toolbar>
-  <mat-drawer-container class="example-container" autosize>
+
+  <button mat-button class="menu-button"><i class="material-icons md-dark">group</i> Admin</button>
+  <button mat-button class="menu-button"><i class="material-icons md-dark">work</i> Studio</button>
+  <button mat-button class="menu-button"><i class="material-icons md-dark">school</i> Coach</button>
+  <button mat-button class="menu-button"><i class="material-icons md-dark">border_color</i> Reader</button>
+  <button mat-button class="menu-button"><i class="material-icons md-dark">mood</i> Kids</button>
+
+</mat-toolbar>
+<mat-drawer-container class="example-container" autosize>
   <mat-drawer #drawer class="example-sidenav" mode="side" disableClose="true" opened="true">
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          test
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-    </mat-expansion-panel>
-    
-<button type="button" mat-button (click)="drawer.toggle()">
-      Toggle sidenav
-    </button>
-    
+    <div class="drawer-header">
+      <div class="drawer-title">
+        <span class="aligned-with-icon">
+        {{isExpand ? "Etablissements par Académie" : ""}}
+          </span>
+      </div>
+      <button mat-mini-fab color="primary" (click)="isExpand = !isExpand"
+              matTooltip='{{isExpand ? "Réduire" : "Etendre"}}'>
+        <mat-icon>{{isExpand ? "chevron_left" : "chevron_right"}}</mat-icon>
+      </button>
+    </div>
+    <div *ngIf="isExpand == false">
+      <div  class="custom-expension-panel custom-panel-group-title custom-panel-group-title-2">
+        <mat-icon mat-list-icon class="custom-panel-icon">group</mat-icon>
+       {{etabSelected}}
+      </div>
+    </div>
+
+    <mat-accordion *ngIf="isExpand==true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="custom-panel-organization-title custom-panel-organization-2">
+            <mat-icon class="custom-panel-icon">business</mat-icon>
+            Académie de Paris
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <mat-list>
+          <div>
+            <a mat-flat-button class="custom-expension-panel custom-panel-group-title" (click)="changeEtab('Lycée Carnot')">
+              <mat-icon mat-list-icon class="custom-panel-icon">group</mat-icon>
+              Lycée Carnot
+            </a>
+            <a mat-flat-button class="custom-expension-panel custom-panel-group-title" (click)="changeEtab('Lycée Descartes')">
+              <mat-icon mat-list-icon class="custom-panel-icon">group</mat-icon>
+              Lycée Descartes
+            </a>
+          </div>
+          <div class="custom-panel-add">
+            <button
+              mat-flat-button
+              class="custom-mat-icon-button"
+              (click)="openAddGroupDialog('Ajouter un  établissement')">
+              <mat-icon>add</mat-icon>
+              Ajouter un établissement
+            </button>
+          </div>
+        </mat-list>
+        <mat-expansion-panel *ngFor="let ac of academies">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="custom-panel-organization-title">
+              <mat-icon class="custom-panel-icon">business</mat-icon>
+             {{ac.name}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <mat-list>
+            <div>
+              <a mat-flat-button class="custom-expension-panel custom-panel-group-title">
+                <mat-icon mat-list-icon class="custom-panel-icon">group</mat-icon>
+                Lycée Carnot
+              </a>
+            </div>
+            <div class="custom-panel-add">
+              <button
+                mat-flat-button
+                class="custom-mat-icon-button"
+                (click)="openAddGroupDialog('Ajouter un  établissement')">
+                <mat-icon>add</mat-icon>
+                Ajouter un établissement
+              </button>
+            </div>
+          </mat-list>
+        </mat-expansion-panel>
+
+      </mat-expansion-panel>
+      <div class="drawer-sidenav-action">
+        <button
+          mat-fab
+          color="primary"
+
+          (click)="openAddGroupDialog('Ajouter une académie')"
+          matTooltip="Ajouter une Académie">
+          <mat-icon>add</mat-icon>
+        </button>
+      </div>
+    </mat-accordion>
   </mat-drawer>
   <div class="cards" cdkDropListGroup>
-
-
-<mat-card class="classes-students" cdkDropList  (cdkDropListDropped)="drop($event)">
-<form class="selection">
-  <mat-form-field appearance="fill" class="classes">
-    <mat-label>Classes</mat-label>
-    <mat-select [(ngModel)]="selectedClasse" name="classe" [formControl]='classeControl'>
-      <mat-option *ngFor="let classe of classes" [value]="classe.value">
-        {{classe.viewValue}}
-      </mat-option>
-    </mat-select>
-    <mat-error *ngIf="classeControl.hasError('required')">Veuillez choisir une classe</mat-error>
-  </mat-form-field>
-  <mat-form-field appearance="fill" class="students">
-    <mat-label>Elèves</mat-label>
-    <mat-select [(ngModel)]="selectedStudent" name="student">
-      <mat-option *ngFor="let student of students" [value]="student.value">
-        {{student.viewValue}}
-      </mat-option>
-    </mat-select>
-    <mat-error *ngIf="studentControl.hasError('required')"> Veuillez choisir un élève</mat-error>
-  </mat-form-field>
-</form>
-<mat-tree [dataSource]="dataSourceAssigned" [treeControl]="treeControl">
-  <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding cdkDrag [cdkDragData]="node" >
+    <mat-card class="classes-students" cdkDropList (cdkDropListDropped)="drop($event)">
+      <form class="search-form">
+        <mat-form-field class="search-full-width">
+          <mat-label>Rechercher un Elève</mat-label>
+          <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+            <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+              {{option.value}}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+      </form>
+      <form class="selection">
+        <mat-form-field appearance="fill" class="classes">
+          <mat-label>Classes</mat-label>
+          <mat-select [(ngModel)]="selectedClasse" name="classe" [formControl]='classeControl'>
+            <mat-option *ngFor="let classe of classes" [value]="classe.value">
+              {{classe.viewValue}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="classeControl.hasError('required')">Veuillez choisir une classe</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="students">
+          <mat-label>Elèves</mat-label>
+          <mat-select [(ngModel)]="selectedStudent" name="student">
+            <mat-option *ngFor="let student of students" [value]="student.value">
+              {{student.viewValue}}
+            </mat-option>
+          </mat-select>
+          <mat-error *ngIf="studentControl.hasError('required')"> Veuillez choisir un élève</mat-error>
+        </mat-form-field>
+      </form>
+      <mat-tree [dataSource]="dataSourceAssigned" [treeControl]="treeControl">
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding cdkDrag [cdkDragData]="node">
           <!-- use a disabled button to provide padding for tree leaf -->
-    <button mat-icon-button disabled></button>
-    {{node.name}}
+          <button mat-icon-button disabled></button>
+          {{node.name}}
         </mat-tree-node>
-
-</mat-tree>
-</mat-card>
-
-
-  <mat-card class="courses">
-        <mat-card-title>
-          Cours
-        </mat-card-title>
-      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" cdkDropList>
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding cdkDrag [cdkDragData]="node" >
-          <!-- use a disabled button to provide padding for tree leaf -->
-    <button mat-icon-button disabled></button>
-    {{node.name}}
-        </mat-tree-node>
-         <!-- This is the tree node template for expandable nodes -->
-  <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding cdkDrag [cdkDragData]="node" [cdkDragDisabled]='false'>
-    <div *ngIf="node.name!=='Math';else toto">
-    <button mat-icon-button matTreeNodeToggle
-            [attr.aria-label]="'Toggle ' + node.name">
-      <mat-icon class="mat-icon-rtl-mirror">
-        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-      </mat-icon>
-    </button>
-
-    {{node.name}}
-    </div>
-    
-    <ng-template #toto >
-   <button mat-icon-button disabled></button>
-
-    {{node.name}}
-    </ng-template>
-    
-  </mat-tree-node>
       </mat-tree>
-  </mat-card>
-  <div>
-    </mat-drawer-container>
+    </mat-card>
+    <mat-card class="courses">
+      <mat-card-title>
+        Cours
+      </mat-card-title>
+      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" cdkDropList>
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding cdkDrag [cdkDragData]="node">
+          <!-- use a disabled button to provide padding for tree leaf -->
+          <button mat-icon-button disabled></button>
+          {{node.name}}
+        </mat-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding cdkDrag [cdkDragData]="node"
+                       [cdkDragDisabled]='false'>
+          <div >
+            <button mat-icon-button matTreeNodeToggle
+                    [attr.aria-label]="'Toggle ' + node.name">
+              <mat-icon class="mat-icon-rtl-mirror">
+                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+              </mat-icon>
+            </button>
+            {{node.name}}
+          </div>
+          <ng-template >
+            <button mat-icon-button disabled></button>
+            {{node.name}}
+          </ng-template>
+        </mat-tree-node>
+      </mat-tree>
+    </mat-card>
+  </div>
+  <div class="share-assign">
+    <button mat-raised-button color="primary" (click)="openSnackBar('Cours partagées')" matTooltip="Vous êtes sur le point de partager les cours sélectionnés aux élèves.
+Ils auront ainsi accès à tous ces cours dans leurs bibliothèques.">Partager
+    </button>
+    <button mat-raised-button color="primary" (click)="openAssign()"
+            matTooltip="Vous êtes sur le point d'assigner des cours sélectionnées aux élèves.">Assigner
+    </button>
+  </div>
+</mat-drawer-container>
 
 
 <!-- Copyright 2020 Google LLC. All Rights Reserved.

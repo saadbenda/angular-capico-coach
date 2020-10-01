@@ -1,0 +1,125 @@
+<mat-horizontal-stepper [linear]="true" #stepper>
+  <mat-step label="Types de contenus à ajouter">
+    <form>
+
+      <div *ngFor="let type of assetTypes; let i = index">
+        <mat-checkbox color="primary">
+          {{type.name}}
+        </mat-checkbox>
+      </div>
+
+      <div mat-dialog-actions>
+        <button mat-raised-button color="primary" matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step label="Assigner une tâche">
+
+    <form>
+      <div class="row">
+        <mat-form-field class="col-md-12">
+          <input matInput placeholder="{{'final.task-name'}}" [formControl]="labelController"
+                 required>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <div class="date">
+          <div class="col-auto">
+            <mat-form-field appearance="fill">
+              <mat-label>Choose a date</mat-label>
+              <input matInput [matDatepicker]="picker">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-auto">
+          <mat-form-field class="timePicker">
+            <mat-label>{{'final.hours' }}</mat-label>
+            <mat-select [formControl]="startHoursController">
+              <mat-option *ngFor="let hour of hours" [value]="hour">
+                {{hour}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          :
+          <mat-form-field class="timePicker">
+            <mat-label>{{'final.minutes'}}</mat-label>
+            <mat-select [formControl]="startMinutesController"
+                        [disabled]="!startHoursController.value">
+              <mat-option *ngFor="let minute of minutes" [value]="minute">
+                {{minute}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="warningTime"
+               *ngIf="isInferiorToToday">{{'final.isInferiorToToday'}}</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="date">
+          <div class="col-auto">
+            <mat-form-field appearance="fill">
+              <mat-label>Choose a date</mat-label>
+              <input matInput [matDatepicker]="picker2">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="col-auto">
+          <mat-form-field class="timePicker">
+            <mat-label>{{'final.hours'}}</mat-label>
+            <mat-select  [formControl]="endHoursController"
+                        [disabled]="!endDate">
+              <mat-option *ngFor="let hour of hours" [value]="hour">
+                {{hour}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          :
+          <mat-form-field class="timePicker">
+            <mat-label>{{'final.minutes'}}</mat-label>
+            <mat-select
+                        [formControl]="endMinutesController" [disabled]="!endDate || !endHoursController.value">
+              <mat-option *ngFor="let minute of minutes" [value]="minute">
+                {{minute}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div class="warningTime"
+               *ngIf="isSuperiorToStart">{{'final.isSuperiorToStart'}}</div>
+        </div>
+      </div>
+      <div class="row aligns">
+        <div class="col-auto">
+          <mat-checkbox color="primary" (click)="toggleDurationOn()"
+                        [formControl]="isPlannedController">{{"evaluation"}}</mat-checkbox>
+        </div>
+        <div class="col-auto">
+          <mat-checkbox color="primary" (click)="!isPlannedController.value || toggleDurationTime()"
+                        [disabled]="!isPlannedController.value"
+                        [formControl]="durationOnController">{{"enable-duration"}}</mat-checkbox>
+        </div>
+        <div class="col-auto duration">
+          <mat-form-field>
+            <input matInput placeholder="{{'final.duration'}}" type="number" [min]="1"
+                   value="60" oninput="validity.valid||(value='');" [formControl]="durationTimeController">
+          </mat-form-field>
+        </div>
+      </div>
+
+    </form>
+    <div mat-dialog-actions>
+      <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" matStepperNext>Next</button>
+    </div>
+  </mat-step>
+  <mat-step label="Options de filtre">
+
+    <div mat-dialog-actions>
+      <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
