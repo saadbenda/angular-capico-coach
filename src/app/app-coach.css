@@ -228,5 +228,12 @@ h4 {
   text-align: center;
 }
 
+.draggable:hover{
+  cursor: grab;
+  border: solid 1px;
+}
+.not-draggable{
+  cursor: not-allowed;
+}
 
 

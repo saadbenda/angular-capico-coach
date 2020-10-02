@@ -18,7 +18,8 @@
     <form>
       <div class="row">
         <mat-form-field class="col-md-12">
-          <input matInput placeholder="{{'final.task-name'}}" [formControl]="labelController"
+          <mat-label>{{'final.task-name'}}</mat-label>
+          <input matInput [formControl]="labelController"
                  required>
         </mat-form-field>
       </div>
@@ -70,7 +71,7 @@
         <div class="col-auto">
           <mat-form-field class="timePicker">
             <mat-label>{{'final.hours'}}</mat-label>
-            <mat-select  [formControl]="endHoursController"
+            <mat-select [formControl]="endHoursController"
                         [disabled]="!endDate">
               <mat-option *ngFor="let hour of hours" [value]="hour">
                 {{hour}}
@@ -81,7 +82,7 @@
           <mat-form-field class="timePicker">
             <mat-label>{{'final.minutes'}}</mat-label>
             <mat-select
-                        [formControl]="endMinutesController" [disabled]="!endDate || !endHoursController.value">
+              [formControl]="endMinutesController" [disabled]="!endDate || !endHoursController.value">
               <mat-option *ngFor="let minute of minutes" [value]="minute">
                 {{minute}}
               </mat-option>
@@ -117,8 +118,71 @@
   </mat-step>
   <mat-step label="Options de filtre">
 
+    <div>
+      <mat-checkbox [(ngModel)]="allCheck"
+                    (ngModelChange)="checkAll(allCheck)"
+                    color="primary">
+        {{'group.assign.final.options.all'}}
+      </mat-checkbox>
+    </div>
+    <div class="little-space-left">
+      <div>
+        <mat-checkbox [(ngModel)]="correctAnswersCheck"
+                      (ngModelChange)="uncheckAll()"
+                      color="primary">
+          {{'group.assign.final.options.correctAnswers'}}
+        </mat-checkbox>
+      </div>
+      <div>
+        <mat-checkbox [(ngModel)]="wrongAnswersCheck"
+                      (ngModelChange)="uncheckAll()"
+                      color="primary">
+          {{'group.assign.final.options.wrongAnswers'}}
+        </mat-checkbox>
+      </div>
+      <div>
+        <mat-checkbox [(ngModel)]="undoneAnswersCheck"
+                      (ngModelChange)="uncheckAll()"
+                      color="primary">
+          {{'group.assign.final.options.undoneAnswers'}}
+        </mat-checkbox>
+      </div>
+    </div>
+    <div class="little-space-top">
+      <mat-checkbox [(ngModel)]="createRandomTaskCheck" color="primary">
+        {{'group.assign.final.options.randomTask'}}
+        <input matInput class="timing"
+               type="number"
+               [formControl]="randomTasksController"
+               min="1"
+               value="10"
+               oninput="validity.valid||(value='');">
+        {{'group.assign.final.options.maximumTask'}}
+      </mat-checkbox>
+    </div>
+    <div class="little-space-top">
+      <mat-checkbox [(ngModel)]="XCorrectOutOfYDoneCheck" color="primary">
+        {{'group.assign.final.options.notIncludeAtLeast'}}
+        <input matInput class="timing"
+               type="number"
+               [formControl]="XCorrectController"
+               min="1"
+               value="5"
+               oninput="validity.valid||(value='');">
+        {{'group.assign.final.options.goodAnswers'}}
+        <input matInput class="timing"
+               type="number"
+               [formControl]="YDoneController"
+               min="1"
+               value="10"
+               oninput="validity.valid||(value='');">
+        {{'group.assign.final.options.lastAnswers'}}
+      </mat-checkbox>
+    </div>
+
     <div mat-dialog-actions>
       <button mat-raised-button color="primary" matStepperPrevious>Back</button>
+      <button mat-raised-button color="primary" (click)="assign()" >Assigner</button>
 
     </div>
   </mat-step>

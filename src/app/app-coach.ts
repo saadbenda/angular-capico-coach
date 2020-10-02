@@ -68,18 +68,10 @@ const TREE_DATA: CourseItemNode[] = [
   },
 ];
 
-const TREE_DATA_ADDED: CourseItemNode[] = [];
+let TREE_DATA_ADDED: CourseItemNode[] = [];
 
 @Injectable()
 export class ChecklistDatabase {
-  dataChange = new BehaviorSubject<CourseItemNode[]>([]);
-  dataChange2 = new BehaviorSubject<CourseItemNode[]>([]);
-
-
-  get data(): CourseItemNode[] {
-    console.log('this.dataChange.value ', JSON.stringify(this.dataChange.value));
-    return this.dataChange.value;
-  }
 
   constructor() {
     this.initialize();
@@ -110,8 +102,6 @@ export class ChecklistDatabase {
       return accumulator.concat(node);
     }, []);
   }
-
-
 }
 
 @Component({
@@ -131,7 +121,6 @@ export class AppCoach implements OnInit {
   filteredOptions: Observable<Student[]>;
   myControl = new FormControl();
   isExpand = false;
-
   classes: Classe[] = [
     {value: 'Sixième', viewValue: 'Sixième'},
     {value: 'Cinquième', viewValue: 'Cinquième'},
@@ -143,8 +132,6 @@ export class AppCoach implements OnInit {
     {value: 'CP', viewValue: 'CP'},
 
   ];
-
-
   students: Student[] = [
     {value: 'Tout les élèves', viewValue: 'Tout les élèves'},
     {value: 'Julian', viewValue: 'Julian'},
@@ -156,9 +143,9 @@ export class AppCoach implements OnInit {
     {value: 'Christopher', viewValue: 'Christopher'}
   ];
 
-
   academies = [];
   etabSelected = 'Lycée Carnot';
+  alreadyAdded: string[] = [];
 
   treeControl: FlatTreeControl<CourseItemFlatNode>;
   treeControlAssigned: FlatTreeControl<CourseItemFlatNode>;
@@ -167,11 +154,12 @@ export class AppCoach implements OnInit {
   dataSource: MatTreeFlatDataSource<CourseItemNode, CourseItemFlatNode>;
   dataSourceAssigned: MatTreeFlatDataSource<CourseItemNode, CourseItemFlatNode>;
   result = [];
-
-// dataChange = new BehaviorSubject<CourseItemNode[]>([]);
+  dataChange = new BehaviorSubject<CourseItemNode[]>([]);
+  dataChangeAssigned = new BehaviorSubject<CourseItemNode[]>([]);
+  dataChangeAdded = new BehaviorSubject<string>('');
 
   constructor(private _formBuilder: FormBuilder,
-              private databa: ChecklistDatabase, private _snackBar: MatSnackBar,
+              private _snackBar: MatSnackBar,
               private _dialog: MatDialog) {
 
 
@@ -187,20 +175,28 @@ export class AppCoach implements OnInit {
       node => node.level, node => node.expandable);
 
     this.dataSourceAssigned = new MatTreeFlatDataSource(this.treeControlAssigned, this.treeFlattener);
-    // this.dataSource.data = TREE_DATA;
-    databa.dataChange.next(TREE_DATA);
-    databa.dataChange.subscribe(data => {
-      console.log('databa.dataChange.subscribe', data);
+
+
+    this.dataChange.next(TREE_DATA);
+    this.dataChange.subscribe(data => {
+      // console.log('databa.dataChange.subscribe', data);
       this.dataSource.data = data;
     });
+    this.dataSourceAssigned.data = TREE_DATA_ADDED;
+    /*this.dataChangeAssigned.subscribe((data: any) => {
+      // console.log('databa.dataChange2.subscribe', data);
+      console.log('here is dataChangeAssigned.subscribe ', JSON.stringify(data));
+      TREE_DATA_ADDED.push(data);
+      this.dataSourceAssigned.data = TREE_DATA_ADDED;
+    });*/
 
-    databa.dataChange2.subscribe(data => {
-      console.log('databa.dataChange2.subscribe', data);
-      this.dataSourceAssigned.data = data;
+    this.dataChangeAdded.subscribe(data => {
+      this.alreadyAdded.push(data);
     });
 
 
   }
+
 
   private _transformer = (node: CourseItemNode, level: number) => {
     return {
@@ -221,10 +217,31 @@ export class AppCoach implements OnInit {
     console.log('event.item.data ', event.item.data);
     const data = event.item.data;
     this.insertItem(event.item.data);
+    //this.alreadyAdded.push(data.name);
+    // this.dataChangeAdded.next(data.name);
+    this.alreadyAdded.push(data.name);
 
 
     // this.dataSource.
 
+
+  }
+
+  delete(node: any) {
+    const index1 = this.alreadyAdded.indexOf(node.name);
+    console.log('index1 ', index1);
+    this.alreadyAdded.splice(index1, 1);
+    const index2 = this.dataSourceAssigned.data.indexOf(node.name);
+    console.log('index2 ', index2);
+    const datas = TREE_DATA_ADDED.filter(d => {
+      return d.name !== node.name;
+    });
+    TREE_DATA_ADDED = datas;
+    console.log('delete this.dataSourceAssigned.data ', JSON.stringify(datas));
+    this.dataSourceAssigned.data = TREE_DATA_ADDED;
+
+
+    // splice(index2, 1);
 
   }
 
@@ -235,7 +252,10 @@ export class AppCoach implements OnInit {
       this.getChildren(TREE_DATA, parent);
     } catch (e) {
       console.log('catch ', JSON.stringify(e));
+      // TREE_DATA_ADDED.push(e);
       TREE_DATA_ADDED.push(e);
+      this.dataSourceAssigned.data = TREE_DATA_ADDED;
+      // this.dataChangeAssigned.next(e);
     }
     // this.dataSourceAssigned.data = test;
     console.log('test ', JSON.stringify(this.result));
@@ -302,6 +322,8 @@ export class AppCoach implements OnInit {
 
   openAssign() {
     const dialogRef = this._dialog.open(AssignComponent);
+    dialogRef.afterClosed().subscribe(
+      () => this.openSnackBar('Cours assignés'));
   }
 
   displayFn(student: Student): string {

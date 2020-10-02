@@ -21,9 +21,9 @@
       </button>
     </div>
     <div *ngIf="isExpand == false">
-      <div  class="custom-expension-panel custom-panel-group-title custom-panel-group-title-2">
+      <div class="custom-expension-panel custom-panel-group-title custom-panel-group-title-2">
         <mat-icon mat-list-icon class="custom-panel-icon">group</mat-icon>
-       {{etabSelected}}
+        {{etabSelected}}
       </div>
     </div>
 
@@ -37,11 +37,13 @@
         </mat-expansion-panel-header>
         <mat-list>
           <div>
-            <a mat-flat-button class="custom-expension-panel custom-panel-group-title" (click)="changeEtab('Lycée Carnot')">
+            <a mat-flat-button class="custom-expension-panel custom-panel-group-title"
+               (click)="changeEtab('Lycée Carnot')">
               <mat-icon mat-list-icon class="custom-panel-icon">group</mat-icon>
               Lycée Carnot
             </a>
-            <a mat-flat-button class="custom-expension-panel custom-panel-group-title" (click)="changeEtab('Lycée Descartes')">
+            <a mat-flat-button class="custom-expension-panel custom-panel-group-title"
+               (click)="changeEtab('Lycée Descartes')">
               <mat-icon mat-list-icon class="custom-panel-icon">group</mat-icon>
               Lycée Descartes
             </a>
@@ -60,7 +62,7 @@
           <mat-expansion-panel-header>
             <mat-panel-title class="custom-panel-organization-title">
               <mat-icon class="custom-panel-icon">business</mat-icon>
-             {{ac.name}}
+              {{ac.name}}
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-list>
@@ -128,12 +130,39 @@
           <mat-error *ngIf="studentControl.hasError('required')"> Veuillez choisir un élève</mat-error>
         </mat-form-field>
       </form>
-      <mat-tree [dataSource]="dataSourceAssigned" [treeControl]="treeControl">
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding cdkDrag [cdkDragData]="node">
+      <mat-tree [dataSource]="dataSourceAssigned" [treeControl]="treeControlAssigned">
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
+
           <!-- use a disabled button to provide padding for tree leaf -->
           <button mat-icon-button disabled></button>
           {{node.name}}
+          <button mat-icon-button (click)="delete(node)"
+                  [attr.aria-label]="'Toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+              delete
+            </mat-icon>
+          </button>
+
         </mat-tree-node>
+        <!-- This is the tree node template for expandable nodes -->
+        <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
+
+          <button mat-icon-button matTreeNodeToggle
+                  [attr.aria-label]="'Toggle ' + node.name" >
+            <mat-icon class="mat-icon-rtl-mirror">
+              {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+            </mat-icon>
+          </button>
+          {{node.name}}
+          <button mat-icon-button (click)="delete(node)"
+                  [attr.aria-label]="'Toggle ' + node.name">
+            <mat-icon class="mat-icon-rtl-mirror">
+              delete
+            </mat-icon>
+          </button>
+
+        </mat-tree-node>
+
       </mat-tree>
     </mat-card>
     <mat-card class="courses">
@@ -141,15 +170,23 @@
         Cours
       </mat-card-title>
       <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" cdkDropList>
-        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding cdkDrag [cdkDragData]="node">
+
+        <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding cdkDrag [cdkDragData]="node"
+                       [cdkDragDisabled]="alreadyAdded.includes(node.name)"
+                       [ngClass]="alreadyAdded.includes(node.name)? 'not-draggable':'draggable'">
+
           <!-- use a disabled button to provide padding for tree leaf -->
           <button mat-icon-button disabled></button>
+          <div >
           {{node.name}}
+          </div>
+
         </mat-tree-node>
+
         <!-- This is the tree node template for expandable nodes -->
         <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding cdkDrag [cdkDragData]="node"
-                       [cdkDragDisabled]='false'>
-          <div >
+                       [cdkDragDisabled]='alreadyAdded.includes(node.name)'  [ngClass]="alreadyAdded.includes(node.name)? 'not-draggable':'draggable'">
+          <div>
             <button mat-icon-button matTreeNodeToggle
                     [attr.aria-label]="'Toggle ' + node.name">
               <mat-icon class="mat-icon-rtl-mirror">
@@ -158,10 +195,6 @@
             </button>
             {{node.name}}
           </div>
-          <ng-template >
-            <button mat-icon-button disabled></button>
-            {{node.name}}
-          </ng-template>
         </mat-tree-node>
       </mat-tree>
     </mat-card>

@@ -1,7 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import * as _moment from 'moment';
-import { Moment } from 'moment';
+import {MatDialogRef} from '@angular/material/dialog';
+// import { Moment } from 'moment';
 
 const moment = _moment;
 
@@ -21,11 +22,11 @@ export class AssignComponent implements OnInit {
   timeString: string;
   timeNumber: number;
   groupRoute: String;
-  today: Moment = moment().startOf('day');
-  todayTime: Moment = moment();
-  startDate: Moment;
+  today: _moment.Moment = moment().startOf('day');
+  todayTime: _moment.Moment = moment();
+  startDate: _moment.Moment;
   // coach: User;
-  endDate: Moment;
+  endDate: _moment.Moment;
   isInferiorToToday: boolean;
   isSuperiorToStart: boolean;
   hours: string[] = [];
@@ -66,7 +67,7 @@ export class AssignComponent implements OnInit {
     {id: 7, name: 'GENERATED QCM'}
   ];
 
-  constructor() {
+  constructor(private _dialogRef: MatDialogRef<AssignComponent>) {
   }
 
   ngOnInit() {
@@ -111,6 +112,26 @@ export class AssignComponent implements OnInit {
       this.durationTimeController.disable();
       this.durationTimeController.reset();
     }
+  }
+
+  checkAll(value: any) {
+    if (value) {
+      this.correctAnswersCheck = true;
+      this.wrongAnswersCheck = true;
+      this.undoneAnswersCheck = true;
+    } else {
+      this.correctAnswersCheck = false;
+      this.wrongAnswersCheck = false;
+      this.undoneAnswersCheck = false;
+    }
+  }
+
+  uncheckAll() {
+    this.allCheck = this.correctAnswersCheck && this.wrongAnswersCheck && this.undoneAnswersCheck;
+  }
+
+  assign(){
+    this._dialogRef.close();
   }
 
 }
