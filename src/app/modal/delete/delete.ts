@@ -19,6 +19,7 @@ export class DeleteComponent {
   sendResponse(response: string) {
     this._bottomRef.dismiss({
       res: response,
+      title: this.title,
     });
   }
 }

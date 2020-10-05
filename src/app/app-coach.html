@@ -103,7 +103,7 @@
           <mat-expansion-panel-header>
             <mat-panel-title class="custom-panel-organization-title">
               <mat-icon class="custom-panel-icon">business</mat-icon>
-              {{ac.name}}
+              {{ac}}
             </mat-panel-title>
           </mat-expansion-panel-header>
           <mat-list>
@@ -138,6 +138,14 @@
       </div>
     </mat-accordion>
   </mat-drawer>
+  <mat-tab-group mat-stretch-tabs>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>assignment_ind</mat-icon>
+        Assigner
+      </ng-template>
+
   <div class="cards" cdkDropListGroup>
     <mat-card class="classes-students" cdkDropList (cdkDropListDropped)="drop($event)">
       <form class="search-form">
@@ -251,6 +259,32 @@ Ils auront ainsi accès à tous ces cours dans leurs bibliothèques."
             matTooltipClass="example-tooltip">Assigner
     </button>
   </div>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>edit</mat-icon>
+        Corriger
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>assessment</mat-icon>
+        Résultats
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>message</mat-icon>
+        Commentaires
+      </ng-template>
+    </mat-tab>
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon>archive</mat-icon>
+        Archiver
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
 </mat-drawer-container>
 
 

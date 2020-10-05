@@ -17,7 +17,7 @@ export class GroupComponent {
   ) {
     this.description = data.description;
     this.form = _fb.group({
-      description: [this.description, []],
+      description: [],
     });
   }
 

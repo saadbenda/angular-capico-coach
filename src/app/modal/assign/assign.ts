@@ -1,10 +1,10 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import * as _moment from 'moment';
+// import * as _moment from 'moment';
 import {MatDialogRef} from '@angular/material/dialog';
 // import { Moment } from 'moment';
 
-const moment = _moment;
+// const moment = _moment;
 
 @Component({
     selector: 'assign',
@@ -22,11 +22,11 @@ export class AssignComponent implements OnInit {
   timeString: string;
   timeNumber: number;
   groupRoute: String;
-  today: _moment.Moment = moment().startOf('day');
-  todayTime: _moment.Moment = moment();
-  startDate: _moment.Moment;
+  // today: _moment.Moment = moment().startOf('day');
+  // todayTime: _moment.Moment = moment();
+  startDate: any;
   // coach: User;
-  endDate: _moment.Moment;
+  endDate: any;
   isInferiorToToday: boolean;
   isSuperiorToStart: boolean;
   hours: string[] = [];
@@ -74,7 +74,7 @@ export class AssignComponent implements OnInit {
 
     this.isInferiorToToday = false;
     this.isSuperiorToStart = false;
-    this.startDate = this.today;
+    // this.startDate = this.today;
     this.hours = this.getTime(24);
     this.minutes = this.getTime(60);
     this.durationOnController.setValue(false);
@@ -130,7 +130,7 @@ export class AssignComponent implements OnInit {
     this.allCheck = this.correctAnswersCheck && this.wrongAnswersCheck && this.undoneAnswersCheck;
   }
 
-  assign(){
+  assign() {
     this._dialogRef.close();
   }
 
