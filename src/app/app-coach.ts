@@ -373,7 +373,7 @@ export class AppCoach implements OnInit {
     const dialogDel = this._bottomSheet.open(DeleteComponent, config);
     dialogDel.afterDismissed().subscribe(
       d => {
-        if (d.res === 'oui') {
+        if (d && d.res === 'oui') {
           const a = d.title + ' a bien été supprimé';
           this.openSnackBar(a);
         }
