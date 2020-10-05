@@ -28,26 +28,67 @@
     </div>
 
     <mat-accordion *ngIf="isExpand==true">
-      <mat-expansion-panel>
+      <mat-expansion-panel [disabled]="clickExpand" (click)="clickExpand=false">
         <mat-expansion-panel-header>
           <mat-panel-title class="custom-panel-organization-title custom-panel-organization-2">
             <mat-icon class="custom-panel-icon">business</mat-icon>
             Académie de Paris
+            <div class="icon-header">
+              <button
+                mat-icon-button
+                (click)="openDialog('Modifier le nom de l\'Académie')">
+                <mat-icon>
+                  edit
+                </mat-icon>
+              </button>
+              <button mat-icon-button (click)="openBottomSheet('Académie de Paris')">
+                <mat-icon>
+                  delete
+                </mat-icon>
+              </button>
+            </div>
           </mat-panel-title>
         </mat-expansion-panel-header>
         <mat-list>
-          <div>
+          <mat-list-item>
             <a mat-flat-button class="custom-expension-panel custom-panel-group-title"
                (click)="changeEtab('Lycée Carnot')">
               <mat-icon mat-list-icon class="custom-panel-icon">group</mat-icon>
               Lycée Carnot
             </a>
+            <button
+              mat-icon-button
+              (click)="openDialog('Modifier le lycée Carnot')">
+              <mat-icon mat-list-icon>
+                edit
+              </mat-icon>
+            </button>
+            <button mat-icon-button (click)="openBottomSheet('Lycée Carnot')">
+              <mat-icon mat-list-icon>
+                delete
+              </mat-icon>
+            </button>
+
+          </mat-list-item>
+          <mat-list-item>
             <a mat-flat-button class="custom-expension-panel custom-panel-group-title"
                (click)="changeEtab('Lycée Descartes')">
               <mat-icon mat-list-icon class="custom-panel-icon">group</mat-icon>
               Lycée Descartes
             </a>
-          </div>
+            <button
+              mat-icon-button
+              (click)="openDialog('Modifier le lycée Descartes')">
+              <mat-icon mat-list-icon>
+                edit
+              </mat-icon>
+            </button>
+            <button mat-icon-button (click)="openBottomSheet(' Lycée Descartes')">
+              <mat-icon mat-list-icon>
+                delete
+              </mat-icon>
+            </button>
+          </mat-list-item>
           <div class="custom-panel-add">
             <button
               mat-flat-button
@@ -138,7 +179,7 @@
           {{node.name}}
           <button mat-icon-button (click)="delete(node)"
                   [attr.aria-label]="'Toggle ' + node.name">
-            <mat-icon class="mat-icon-rtl-mirror">
+            <mat-icon color="warn" class="mat-icon-rtl-mirror">
               delete
             </mat-icon>
           </button>
@@ -148,13 +189,13 @@
         <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding>
 
           <button mat-icon-button matTreeNodeToggle
-                  [attr.aria-label]="'Toggle ' + node.name" >
+                  [attr.aria-label]="'Toggle ' + node.name">
             <mat-icon class="mat-icon-rtl-mirror">
               {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
             </mat-icon>
           </button>
           {{node.name}}
-          <button mat-icon-button (click)="delete(node)"
+          <button mat-icon-button color="warn" (click)="delete(node)"
                   [attr.aria-label]="'Toggle ' + node.name">
             <mat-icon class="mat-icon-rtl-mirror">
               delete
@@ -177,17 +218,18 @@
 
           <!-- use a disabled button to provide padding for tree leaf -->
           <button mat-icon-button disabled></button>
-          <div >
-          {{node.name}}
+          <div>
+            {{node.name}}
           </div>
 
         </mat-tree-node>
 
         <!-- This is the tree node template for expandable nodes -->
         <mat-tree-node *matTreeNodeDef="let node;when: hasChild" matTreeNodePadding cdkDrag [cdkDragData]="node"
-                       [cdkDragDisabled]='alreadyAdded.includes(node.name)'  [ngClass]="alreadyAdded.includes(node.name)? 'not-draggable':'draggable'">
+                       [cdkDragDisabled]='alreadyAdded.includes(node.name)'
+                       [ngClass]="alreadyAdded.includes(node.name)? 'not-draggable':'draggable'">
           <div>
-            <button mat-icon-button matTreeNodeToggle
+            <button mat-icon-button matTreeNodeToggle *ngIf="alreadyAdded.includes(node.name) == false"
                     [attr.aria-label]="'Toggle ' + node.name">
               <mat-icon class="mat-icon-rtl-mirror">
                 {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
@@ -201,10 +243,12 @@
   </div>
   <div class="share-assign">
     <button mat-raised-button color="primary" (click)="openSnackBar('Cours partagées')" matTooltip="Vous êtes sur le point de partager les cours sélectionnés aux élèves.
-Ils auront ainsi accès à tous ces cours dans leurs bibliothèques.">Partager
+Ils auront ainsi accès à tous ces cours dans leurs bibliothèques."
+            matTooltipClass="example-tooltip">Partager
     </button>
     <button mat-raised-button color="primary" (click)="openAssign()"
-            matTooltip="Vous êtes sur le point d'assigner des cours sélectionnées aux élèves.">Assigner
+            matTooltip="Vous êtes sur le point d'assigner des cours sélectionnées aux élèves."
+            matTooltipClass="example-tooltip">Assigner
     </button>
   </div>
 </mat-drawer-container>

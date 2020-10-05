@@ -1,0 +1,12 @@
+<h3>Etes vous sûr de vouloir supprimer {{title}}</h3>
+<div class="button-delete">
+<button
+  mat-raised-button color="primary"
+  (click)="sendResponse('oui')">
+  Oui
+</button>
+<button
+  mat-stroked-button
+  color="primary"
+  (click)="sendResponse('non')">Non</button>
+</div>

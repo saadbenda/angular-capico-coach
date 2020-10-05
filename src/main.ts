@@ -16,6 +16,8 @@ import {FlatTreeControl} from '@angular/cdk/tree';
   import {AppCoach} from './app/app-coach';
 import {AssignComponent} from './app/modal/assign/assign';
 import {GroupComponent} from './app/modal/group/group';
+import {DeleteComponent} from './app/modal/delete/delete';
+import {MatBottomSheet} from '@angular/material/bottom-sheet';
 
 
 // Default MatFormField appearance to 'fill' as that is the new recommended approach and the
@@ -31,8 +33,8 @@ import {GroupComponent} from './app/modal/group/group';
     MatNativeDateModule,
     ReactiveFormsModule,
   ],
-  entryComponents: [AppCoach, AssignComponent, GroupComponent],
-  declarations: [AppCoach, AssignComponent, GroupComponent],
+  entryComponents: [AppCoach, AssignComponent, GroupComponent, DeleteComponent],
+  declarations: [AppCoach, AssignComponent, GroupComponent, DeleteComponent],
   bootstrap: [AppCoach],
   providers: [
     { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'fill' } },

@@ -9,6 +9,8 @@ import {MatDialog, MatDialogConfig} from '@angular/material/dialog';
 import {AssignComponent} from './modal/assign/assign';
 import {map, startWith} from 'rxjs/operators';
 import {GroupComponent} from './modal/group/group';
+import {MatBottomSheet, MatBottomSheetConfig} from '@angular/material/bottom-sheet';
+import {DeleteComponent} from './modal/delete/delete';
 
 /**
  * @title Stepper overview
@@ -121,6 +123,7 @@ export class AppCoach implements OnInit {
   filteredOptions: Observable<Student[]>;
   myControl = new FormControl();
   isExpand = false;
+  clickExpand = false;
   classes: Classe[] = [
     {value: 'Sixième', viewValue: 'Sixième'},
     {value: 'Cinquième', viewValue: 'Cinquième'},
@@ -160,7 +163,8 @@ export class AppCoach implements OnInit {
 
   constructor(private _formBuilder: FormBuilder,
               private _snackBar: MatSnackBar,
-              private _dialog: MatDialog) {
+              private _dialog: MatDialog,
+              private _bottomSheet: MatBottomSheet) {
 
 
     this.treeControl = new FlatTreeControl<CourseItemFlatNode>(
@@ -220,10 +224,7 @@ export class AppCoach implements OnInit {
     //this.alreadyAdded.push(data.name);
     // this.dataChangeAdded.next(data.name);
     this.alreadyAdded.push(data.name);
-
-
-    // this.dataSource.
-
+    this.treeControl.collapse(data);
 
   }
 
@@ -244,6 +245,7 @@ export class AppCoach implements OnInit {
     // splice(index2, 1);
 
   }
+
 
   insertItem(parent: any) {
     console.log('this.data ', parent);
@@ -289,7 +291,7 @@ export class AppCoach implements OnInit {
         console.log('tree ', JSON.stringify(tree));
         throw data;
       } else {
-        console.log('else');
+        console.log('tree else ', JSON.stringify(tree));
         if (data.children) {
           console.log('data.children ', JSON.stringify(data.children));
           console.log('else ', data.children.length);
@@ -353,6 +355,28 @@ export class AppCoach implements OnInit {
 
   }
 
+  openDialog(name: string) {
+    this.clickExpand = true;
+    const config = new MatDialogConfig();
+    config.data = {
+      description: name,
+    };
+    const dialogRef = this._dialog.open(GroupComponent, config);
+  }
+
+  openBottomSheet(title: string) {
+    this.clickExpand = true;
+    const config = new MatBottomSheetConfig();
+    config.data = {
+      description: title,
+    };
+    const dialogDel = this._bottomSheet.open(DeleteComponent, config);
+    dialogDel.afterDismissed().subscribe(
+      d => {
+        const a = d.res + ' a bien été supprimé';
+        this.openSnackBar(a);
+    });
+  }
 
 }
 

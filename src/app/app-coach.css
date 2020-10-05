@@ -232,8 +232,16 @@ h4 {
   cursor: grab;
   border: solid 1px;
 }
+.draggable:active{
+  cursor: move;
+}
 .not-draggable{
   cursor: not-allowed;
 }
-
-
+::ng-deep .example-tooltip{
+  font-size: 20px;
+}
+.icon-header{
+  /*display: flex;*/
+  margin-left:50px;
+}
