@@ -171,7 +171,7 @@
         </mat-form-field>
         <mat-form-field appearance="fill" class="students">
           <mat-label>Elèves</mat-label>
-          <mat-select [(ngModel)]="selectedStudent" name="student">
+          <mat-select [(ngModel)]="selectedStudent" name="student" [formControl]='studentControl'>
             <mat-option *ngFor="let student of students" [value]="student.value">
               {{student.viewValue}}
             </mat-option>
